@@ -1,0 +1,10 @@
+{
+  "application_name": "Beep",
+  "application_welcome_message": null,
+  "default_homeserver": "ms.beep.gov.pk",
+  "web_base_url": "https://wa.beep.gov.pk/#/login",
+  "privacy_url": "https://beep.gov.pk/privacy.html",
+  "render_html": false,
+  "hide_redacted_events": false,
+  "hide_unknown_events": false
+}

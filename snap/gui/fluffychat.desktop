@@ -1,0 +1,9 @@
+[Desktop Entry]
+Name=beep
+GenericName=Matrix Client
+Comment=Chat with your friends
+Exec=beep
+Icon=${SNAP}/meta/gui/beep.png
+Terminal=false
+Type=Application
+Categories=Network;Chat;InstantMessaging;
