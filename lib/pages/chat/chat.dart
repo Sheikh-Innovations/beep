@@ -1263,6 +1263,9 @@ class ChatController extends State<ChatPageWithRoom>
       (event ?? selectedEvents.single).showInfoDialog(context);
 
   void onPhoneButtonTap() async {
+
+
+    print('HI====================');
     // VoIP required Android SDK 21
     if (PlatformInfos.isAndroid) {
       DeviceInfoPlugin().androidInfo.then((value) {
@@ -1299,6 +1302,7 @@ class ChatController extends State<ChatPageWithRoom>
 
     final voipPlugin = Matrix.of(context).voipPlugin;
     try {
+     
       await voipPlugin!.voip.inviteToCall(room, callType);
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
