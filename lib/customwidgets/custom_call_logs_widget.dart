@@ -2,6 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:velocity_x/velocity_x.dart';
 
+///@Description of Widget:This widget for call Log showing.
+///@Features:Calls have two mode ,1-audio 2-video, 1-oneperson , 2-group,
+///@Data: It shows Whether call is incoming or outgoing, time and date
+///@Param: Username,userpicture,date,time
+
+//TODO: I have now used icons size according to figma ui.Flutter_Screen_utils package needs to be used for better responsiveness
+
 //To Define If call is Audio Or Video
 enum CallType { video, phone }
 
@@ -121,26 +128,22 @@ class CustomLogsTile extends StatelessWidget {
 //Gray Color of Text
 const Color GRAY_COLOR = Color(0xFF6B7C85);
 
-
-
 ///----> Example of How to call this calllogstile in UI  <---- ////
-            // CustomLogsTile( /// This is the call is grom group
-            //   userType: UserType.group, // Group
-            //   callType: CallType.video, // Video call
-            //   arrowDirection: ArrowDirection.incoming, // Incoming call
-            //   userName: "Work Zone", // Name of the group
-            //   date: "2 Aug", // Date of the call
-            //   time: "11:40 am", // Time of the call
-            // ),
+// CustomLogsTile( /// This is the call is grom group
+//   userType: UserType.group, // Group
+//   callType: CallType.video, // Video call
+//   arrowDirection: ArrowDirection.incoming, // Incoming call
+//   userName: "Work Zone", // Name of the group
+//   date: "2 Aug", // Date of the call
+//   time: "11:40 am", // Time of the call
+// ),
 
-
-            
-            // CustomLogsTile( /// This is the call is from person
-            //   userType: UserType.person, // Person
-            //   callType: CallType.phone, // Phone call
-            //   arrowDirection: ArrowDirection.outgoing, // Outgoing call
-            //   userName: "User Ali", // Name of the person
-            //   avatarPath: 'assets/user_avatar.png', // Avatar image path
-            //   date: "2 Aug", // Date of the call
-            //   time: "11:40 am", // Time of the call
-            // ),
+// CustomLogsTile( /// This is the call is from person
+//   userType: UserType.person, // Person
+//   callType: CallType.phone, // Phone call
+//   arrowDirection: ArrowDirection.outgoing, // Outgoing call
+//   userName: "User Ali", // Name of the person
+//   avatarPath: 'assets/user_avatar.png', // Avatar image path
+//   date: "2 Aug", // Date of the call
+//   time: "11:40 am", // Time of the call
+// ),
