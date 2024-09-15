@@ -32,6 +32,7 @@ if (keystorePropertiesFile.exists()) {
 android {
     namespace 'com.avx.beep'
     compileSdkVersion 34
+    ndkVersion '23.1.7779620'
 
     sourceSets {
         main.java.srcDirs += 'src/main/kotlin'
