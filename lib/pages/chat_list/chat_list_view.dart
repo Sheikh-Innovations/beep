@@ -137,6 +137,8 @@ class ChatListView extends StatelessWidget {
                   excludeFromSemantics: true,
                   behavior: HitTestBehavior.translucent,
                   child: Scaffold(
+
+                    backgroundColor: const Color(0xffF8FFF8),
                     body: ChatListViewBody(controller),
                     floatingActionButton: KeyBoardShortcuts(
                       keysToPress: {
@@ -149,12 +151,16 @@ class ChatListView extends StatelessWidget {
                               !controller.isSearchMode &&
                               controller.activeSpaceId == null
                           ? FloatingActionButton.extended(
+                            backgroundColor: const Color(0xff4B882B),
                               onPressed: () =>
+
                                   context.go('/rooms/newprivatechat'),
-                              icon: const Icon(Icons.add_outlined),
+                              icon: const Icon(Icons.add_outlined, color:Colors.white ,),
                               label: Text(
                                 L10n.of(context)!.chat,
                                 overflow: TextOverflow.fade,
+
+                                style: const TextStyle(color: Colors.white),
                               ),
                             )
                           : const SizedBox.shrink(),

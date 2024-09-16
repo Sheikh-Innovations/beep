@@ -26,18 +26,19 @@ class NewPrivateChatView extends StatelessWidget {
 
     final searchResponse = controller.searchResponse;
     return Scaffold(
+ 
       appBar: AppBar(
         scrolledUnderElevation: 0,
         leading: const Center(child: BackButton()),
         title: Text(L10n.of(context)!.newChat),
         backgroundColor: theme.scaffoldBackgroundColor,
-        actions: [
-          TextButton(
-            onPressed:
-                UrlLauncher(context, AppConfig.startChatTutorial).launchUrl,
-            child: Text(L10n.of(context)!.help),
-          ),
-        ],
+        // actions: [
+        //   TextButton(
+        //     onPressed:
+        //         UrlLauncher(context, AppConfig.startChatTutorial).launchUrl,
+        //     child: Text(L10n.of(context)!.help),
+        //   ),
+        // ],
       ),
       body: MaxWidthBody(
         withScrolling: false,
@@ -55,7 +56,7 @@ class NewPrivateChatView extends StatelessWidget {
                 decoration: InputDecoration(
                   hintText: L10n.of(context)!.searchForUsers,
                   filled: true,
-                  fillColor: theme.colorScheme.secondaryContainer,
+                  fillColor: const Color(0xffD3FFD5),
                   border: OutlineInputBorder(
                     borderSide: BorderSide.none,
                     borderRadius: BorderRadius.circular(99),

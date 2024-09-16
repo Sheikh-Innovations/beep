@@ -200,9 +200,8 @@ class ChatListViewBody extends StatelessWidget {
                                           decoration: BoxDecoration(
                                             color: filter ==
                                                     controller.activeFilter
-                                                ? theme.colorScheme.primary
-                                                : theme.colorScheme
-                                                    .secondaryContainer,
+                                                ? const Color(0xff4B882B)
+                                                : const Color(0xffD3FFD5),
                                             borderRadius: BorderRadius.circular(
                                               AppConfig.borderRadius,
                                             ),
