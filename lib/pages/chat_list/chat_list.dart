@@ -1,6 +1,8 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:beep/utils/hive/call_log.dart';
+import 'package:beep/utils/hive/call_manager.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -55,6 +57,7 @@ enum ActiveFilter {
   groups,
   unread,
   spaces,
+  calls,
 }
 
 extension LocalizedActiveFilter on ActiveFilter {
@@ -70,6 +73,8 @@ extension LocalizedActiveFilter on ActiveFilter {
         return L10n.of(context)!.groups;
       case ActiveFilter.spaces:
         return L10n.of(context)!.spaces;
+      case ActiveFilter.calls:
+        return 'Calls';
     }
   }
 }
@@ -246,6 +251,9 @@ class ChatListController extends State<ChatList>
         return (room) => room.isUnreadOrInvited;
       case ActiveFilter.spaces:
         return (room) => room.isSpace;
+
+      case ActiveFilter.calls:
+        return (room) => true;
     }
   }
 
@@ -499,14 +507,18 @@ class ChatListController extends State<ChatList>
     }
   }
 
+  List<CallLog> callLogs = [];
+
+  late Client sendingClient;
   @override
   void initState() {
     _initReceiveSharingIntent();
-
+    sendingClient = Matrix.of(context).client;
     scrollController.addListener(_onScroll);
     _waitForFirstSync();
     _hackyWebRTCFixForWeb();
     CallKeepManager().initialize();
+    getCallLogs();
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       if (mounted) {
         searchServer =
@@ -524,6 +536,52 @@ class ChatListController extends State<ChatList>
     _checkTorBrowser();
 
     super.initState();
+  }
+
+  void addNewCallLog({
+    required String name,
+    required String img,
+    required bool isVideo,
+        required String roomId,
+  }) {
+    final newLog = CallLog(
+      name: name,
+      imageUrl: img,
+      date: DateTime.now().toString(),
+      isVideoCall: isVideo,
+      roomId: roomId,
+    );
+
+    CallLogsManager.addCallLog(newLog);
+    getCallLogs();
+  }
+
+  getCallLogs() {
+    CallLogsManager.getCallLogs().then((logs) {
+      setState(() {
+        callLogs = logs;
+      });
+    });
+  }
+
+  makeCall({required CallType callType, required String roomId}) async {
+    final room = sendingClient.getRoomById(roomId);
+
+    final voipPlugin = Matrix.of(context).voipPlugin;
+
+    try {
+      await voipPlugin!.voip.inviteToCall(room!, callType);
+      addNewCallLog(
+        name: room.getLocalizedDisplayname(MatrixLocals(L10n.of(context)!)),
+        isVideo: callType == CallType.kVoice ? false : true,
+        img: room.avatar.toString(),
+        roomId: roomId
+      );
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(e.toLocalizedString(context))),
+      );
+    }
   }
 
   @override
@@ -845,6 +903,10 @@ class ChatListController extends State<ChatList>
     setState(() {
       activeFilter = filter;
     });
+
+    if (activeFilter == ActiveFilter.calls) {
+      getCallLogs();
+    }
   }
 
   void setActiveClient(Client client) {

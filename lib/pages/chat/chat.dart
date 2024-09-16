@@ -1,6 +1,8 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:beep/utils/hive/call_log.dart';
+import 'package:beep/utils/hive/call_manager.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -1262,8 +1264,24 @@ class ChatController extends State<ChatPageWithRoom>
   void showEventInfo([Event? event]) =>
       (event ?? selectedEvents.single).showInfoDialog(context);
 
+  void addNewCallLog({
+    required String name,
+    required String img,
+    required bool isVideo,
+    required String roomId,
+  }) {
+    final newLog = CallLog(
+      name: name,
+      imageUrl: img,
+      roomId: roomId,
+      date: DateTime.now().toString(),
+      isVideoCall: isVideo,
+    );
+
+    CallLogsManager.addCallLog(newLog);
+  }
+
   void onPhoneButtonTap() async {
-    // VoIP required Android SDK 21
     if (PlatformInfos.isAndroid) {
       DeviceInfoPlugin().androidInfo.then((value) {
         if (value.version.sdkInt < 21) {
@@ -1300,6 +1318,13 @@ class ChatController extends State<ChatPageWithRoom>
     final voipPlugin = Matrix.of(context).voipPlugin;
     try {
       await voipPlugin!.voip.inviteToCall(room, callType);
+
+      addNewCallLog(
+        name: room.getLocalizedDisplayname(MatrixLocals(L10n.of(context)!)),
+        isVideo: callType == CallType.kVoice ? false : true,
+        img: room.avatar.toString(),
+        roomId: roomId,
+      );
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text(e.toLocalizedString(context))),

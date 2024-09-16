@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_gen/gen_l10n/l10n.dart';
+import 'package:intl/intl.dart';
 import 'package:matrix/matrix.dart';
 
 import 'package:beep/config/app_config.dart';
@@ -173,6 +174,7 @@ class ChatListViewBody extends StatelessWidget {
                             if (spaceDelegateCandidates.isNotEmpty &&
                                 !controller.widget.displayNavigationRail)
                               ActiveFilter.spaces,
+                            ActiveFilter.calls,
                           ]
                               .map(
                                 (filter) => Padding(
@@ -292,7 +294,8 @@ class ChatListViewBody extends StatelessWidget {
                     childCount: dummyChatCount,
                   ),
                 ),
-              if (client.prevBatch != null)
+              if (controller.activeFilter != ActiveFilter.calls &&
+                  client.prevBatch != null)
                 SliverList.builder(
                   itemCount: rooms.length,
                   itemBuilder: (BuildContext context, int i) {
@@ -310,10 +313,93 @@ class ChatListViewBody extends StatelessWidget {
                     );
                   },
                 ),
+              if (controller.activeFilter == ActiveFilter.calls)
+                SliverList.builder(
+                  itemCount: controller.callLogs.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    final log = controller.callLogs[index];
+                    return CallLogsTile(
+                      name: log.name,
+                      imageUrl: log.imageUrl,
+                      date: formatDateString(log.date),
+                      isVideoCall: log.isVideoCall,
+                      onCallPressed: () {
+
+                        controller.makeCall(
+                          roomId: log.roomId,
+                          callType: log.isVideoCall
+                              ? CallType.kVideo
+                              : CallType.kVoice,
+                        );
+            
+                      },
+                    );
+                  },
+                ),
             ],
           ),
         );
       },
+    );
+  }
+}
+
+String getFormattedDate(DateTime date) {
+  return DateFormat('d MMM, hh:mm a').format(date);
+}
+
+// Example of converting a string to DateTime and formatting it
+String formatDateString(String dateString) {
+  final date = DateTime.parse(dateString); // Parse the string into DateTime
+  return getFormattedDate(date); // Format the DateTime
+}
+
+class CallLogsTile extends StatelessWidget {
+  final String name;
+  final String imageUrl;
+  final String date;
+  final bool isVideoCall;
+  final VoidCallback onCallPressed;
+
+  const CallLogsTile({
+    super.key,
+    required this.name,
+    required this.imageUrl,
+    required this.date,
+    required this.isVideoCall,
+    required this.onCallPressed,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      leading: Avatar(
+        mxContent: Uri.parse(imageUrl),
+        size: 32,
+      ),
+      title: Text(
+        name,
+        style: const TextStyle(
+          fontSize: 16,
+        ),
+      ),
+      subtitle: Row(
+        children: [
+          Image.asset('assets/icons/missed.png'),
+          Text(
+            date,
+            style: const TextStyle(
+              fontSize: 14,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+        ],
+      ),
+      trailing: IconButton(
+        icon: Image.asset(
+            isVideoCall ? 'assets/icons/video.png' : 'assets/icons/audio.png'),
+        onPressed: onCallPressed,
+      ),
     );
   }
 }

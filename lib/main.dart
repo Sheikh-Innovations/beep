@@ -1,7 +1,11 @@
+import 'package:beep/utils/hive/call_log.dart';
+import 'package:beep/utils/hive/call_manager.dart';
 import 'package:flutter/material.dart';
 
 import 'package:collection/collection.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:matrix/matrix.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -24,6 +28,11 @@ void main() async {
   Logs().nativeColors = !PlatformInfos.isIOS;
   final store = await SharedPreferences.getInstance();
   final clients = await ClientManager.getClients(store: store);
+await Hive.initFlutter();
+  Hive.registerAdapter(CallLogAdapter()); // Register the adapter
+
+  // Open the box for call logs
+ await Hive.openBox<CallLog>('call_logs');
 
   // If the app starts in detached mode, we assume that it is in
   // background fetch mode for processing push notifications. This is
