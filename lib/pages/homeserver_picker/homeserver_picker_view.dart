@@ -21,12 +21,12 @@ class HomeserverPickerView extends StatelessWidget {
 
     return LoginScaffold(
       enforceMobileMode: Matrix.of(context).client.isLogged(),
-      appBar: controller.widget.addMultiAccount
-          ? AppBar(
-              centerTitle: true,
-              title: Text(L10n.of(context)!.addAccount),
-            )
-          : null,
+      // appBar: controller.widget.addMultiAccount
+      //     ? AppBar(
+      //         centerTitle: true,
+      //         title: Text(L10n.of(context)!.addAccount),
+      //       )
+      //     : null,
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [

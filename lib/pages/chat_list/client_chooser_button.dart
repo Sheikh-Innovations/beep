@@ -150,16 +150,16 @@ class ClientChooserButton extends StatelessWidget {
           ),
         ),
       ],
-      PopupMenuItem(
-        value: SettingsAction.addAccount,
-        child: Row(
-          children: [
-            const Icon(Icons.person_add_outlined),
-            const SizedBox(width: 18),
-            Text(L10n.of(context)!.addAccount),
-          ],
-        ),
-      ),
+      // PopupMenuItem(
+      //   value: SettingsAction.addAccount,
+      //   child: Row(
+      //     children: [
+      //       const Icon(Icons.person_add_outlined),
+      //       const SizedBox(width: 18),
+      //       Text(L10n.of(context)!.addAccount),
+      //     ],
+      //   ),
+      // ),
     ];
   }
 
@@ -246,17 +246,17 @@ class ClientChooserButton extends StatelessWidget {
       controller.setActiveBundle(object);
     } else if (object is SettingsAction) {
       switch (object) {
-        case SettingsAction.addAccount:
-          final consent = await showOkCancelAlertDialog(
-            context: context,
-            title: L10n.of(context)!.addAccount,
-            message: L10n.of(context)!.enableMultiAccounts,
-            okLabel: L10n.of(context)!.next,
-            cancelLabel: L10n.of(context)!.cancel,
-          );
-          if (consent != OkCancelResult.ok) return;
-          context.go('/rooms/settings/addaccount');
-          break;
+        // case SettingsAction.addAccount:
+        //   final consent = await showOkCancelAlertDialog(
+        //     context: context,
+        //     title: L10n.of(context)!.addAccount,
+        //     message: L10n.of(context)!.enableMultiAccounts,
+        //     okLabel: L10n.of(context)!.next,
+        //     cancelLabel: L10n.of(context)!.cancel,
+        //   );
+        //   if (consent != OkCancelResult.ok) return;
+        //   context.go('/rooms/settings/addaccount');
+        //   break;
         case SettingsAction.newGroup:
           context.go('/rooms/newgroup');
           break;
@@ -350,7 +350,7 @@ class ClientChooserButton extends StatelessWidget {
 }
 
 enum SettingsAction {
-  addAccount,
+  // addAccount,
   newGroup,
   newSpace,
   setStatus,
