@@ -1317,7 +1317,8 @@ class ChatController extends State<ChatPageWithRoom>
 
     final voipPlugin = Matrix.of(context).voipPlugin;
     try {
-      await voipPlugin!.voip.inviteToCall(room, callType);
+      final userId = room.directChatMatrixID;
+      await voipPlugin!.voip.inviteToCall(room, callType, userId: userId);
 
       addNewCallLog(
         name: room.getLocalizedDisplayname(MatrixLocals(L10n.of(context)!)),

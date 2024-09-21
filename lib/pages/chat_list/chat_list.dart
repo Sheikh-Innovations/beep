@@ -570,7 +570,8 @@ class ChatListController extends State<ChatList>
     final voipPlugin = Matrix.of(context).voipPlugin;
 
     try {
-      await voipPlugin!.voip.inviteToCall(room!, callType);
+         final userId = room?.directChatMatrixID;
+      await voipPlugin!.voip.inviteToCall(room!, callType, userId: userId);
       addNewCallLog(
         name: room.getLocalizedDisplayname(MatrixLocals(L10n.of(context)!)),
         isVideo: callType == CallType.kVoice ? false : true,

@@ -173,26 +173,41 @@ class MyCallingPage extends State<Calling> {
   double? _localVideoWidth;
   EdgeInsetsGeometry? _localVideoMargin;
   CallState? _state;
-
-  void _playCallSound() async {
-    const path = 'assets/sounds/call.ogg';
-    if (kIsWeb || PlatformInfos.isMobile || PlatformInfos.isMacOS) {
       final player = AudioPlayer();
+void _playCallSound() async {
+  const path = 'assets/sounds/call.mp3';
+  if (kIsWeb || PlatformInfos.isMobile || PlatformInfos.isMacOS) {
+    try {
+
       await player.setAsset(path);
-      player.play();
-    } else {
-      Logs().w('Playing sound not implemented for this platform!');
+      player.setLoopMode(LoopMode.all);
+      await player.play();
+    } catch (e) {
+      print("Error playing audio: $e");
     }
+  } else {
+    Logs().w('Playing sound not implemented for this platform!');
   }
+}
+
 
   @override
   void initState() {
     super.initState();
-    initialize();
-    _playCallSound();
+    try {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        initialize();
+        _playCallSound();
+      });
+
+  
+    } catch (e) {
+      print('Error in initState: $e');
+    }
   }
 
   void initialize() async {
+    print('HI Im from Bangladesh');
     final call = this.call;
     call.onCallStateChanged.stream.listen(_handleCallState);
     call.onCallEventChanged.stream.listen((event) {
@@ -210,12 +225,12 @@ class MyCallingPage extends State<Calling> {
     });
     _state = call.state;
 
-    if (call.type == CallType.kVideo) {
-      try {
-        // Enable wakelock (keep screen on)
-        unawaited(WakelockPlus.enable());
-      } catch (_) {}
-    }
+    // if (call.type == CallType.kVideo) {
+    //   try {
+    //     // Enable wakelock (keep screen on)
+    //     unawaited(WakelockPlus.enable());
+    //   } catch (_) {}
+    // }
   }
 
   void cleanUp() {
@@ -233,6 +248,7 @@ class MyCallingPage extends State<Calling> {
   @override
   void dispose() {
     super.dispose();
+    player.stop();
     call.cleanUp.call();
   }
 
@@ -517,7 +533,9 @@ class MyCallingPage extends State<Calling> {
       return stackWidgets;
     }
 
-    _resizeLocalVideo(orientation);
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _resizeLocalVideo(orientation);
+    });
 
     if (call.getRemoteStreams.isEmpty) {
       return stackWidgets;
@@ -614,7 +632,7 @@ class MyCallingPage extends State<Calling> {
                         top: 24.0,
                         left: 24.0,
                         child: IconButton(
-                          color: Colors.black45,
+                          color: const Color.fromARGB(115, 85, 44, 44),
                           icon: const Icon(Icons.arrow_back),
                           onPressed: () {
                             PIPView.of(context)?.setFloating(true);

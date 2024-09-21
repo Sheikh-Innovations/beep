@@ -23,7 +23,7 @@ class UserMediaManager {
       await _flutterRingtonePlayer.playRingtone(volume: 80);
     } else if ((kIsWeb || PlatformInfos.isMacOS) &&
         _assetsAudioPlayer != null) {
-      const path = 'assets/sounds/phone.ogg';
+      const path = 'assets/sounds/phone.mp3';
       final player = _assetsAudioPlayer = AudioPlayer();
       player.setAsset(path);
       player.play();
