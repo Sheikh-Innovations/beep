@@ -69,6 +69,7 @@ class _StreamView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    FocusScope.of(context).unfocus();
     return Container(
       decoration: const BoxDecoration(
         color: Colors.black54,
@@ -150,6 +151,7 @@ class MyCallingPage extends State<Calling> {
 
   MediaStream? get remoteStream {
     if (call.getRemoteStreams.isNotEmpty) {
+      player.stop();
       return call.getRemoteStreams[0].stream!;
     }
     return null;
@@ -173,23 +175,21 @@ class MyCallingPage extends State<Calling> {
   double? _localVideoWidth;
   EdgeInsetsGeometry? _localVideoMargin;
   CallState? _state;
-      final player = AudioPlayer();
-void _playCallSound() async {
-  const path = 'assets/sounds/call.mp3';
-  if (kIsWeb || PlatformInfos.isMobile || PlatformInfos.isMacOS) {
-    try {
-
-      await player.setAsset(path);
-      player.setLoopMode(LoopMode.all);
-      await player.play();
-    } catch (e) {
-      print("Error playing audio: $e");
+  final player = AudioPlayer();
+  void _playCallSound() async {
+    const path = 'assets/sounds/call.mp3';
+    if (kIsWeb || PlatformInfos.isMobile || PlatformInfos.isMacOS) {
+      try {
+        await player.setAsset(path);
+        player.setLoopMode(LoopMode.all);
+        await player.play();
+      } catch (e) {
+        print("Error playing audio: $e");
+      }
+    } else {
+      Logs().w('Playing sound not implemented for this platform!');
     }
-  } else {
-    Logs().w('Playing sound not implemented for this platform!');
   }
-}
-
 
   @override
   void initState() {
@@ -199,8 +199,6 @@ void _playCallSound() async {
         initialize();
         _playCallSound();
       });
-
-  
     } catch (e) {
       print('Error in initState: $e');
     }
@@ -375,7 +373,7 @@ void _playCallSound() async {
       heroTag: 'switchCamera',
       onPressed: _switchCamera,
       backgroundColor: Colors.black45,
-      child: const Icon(Icons.switch_camera),
+      child: const Icon(Icons.switch_camera, color: Colors.white,),
     );
     /*
     var switchSpeakerButton = FloatingActionButton(
