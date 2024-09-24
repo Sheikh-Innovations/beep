@@ -29,7 +29,7 @@ abstract class AppConfig {
       'https://github.com/krille-chan/beep/wiki/How-to-use-end-to-end-encryption-in-beep';
   static const String startChatTutorial =
       'https://github.com/krille-chan/beep/wiki/How-to-Find-Users-in-beep';
-  static const String appId = 'im.beep.beep';
+static const String appId = 'chat.beep.beepchat';
   static const String appOpenUrlScheme = 'im.beep';
   static String _webBaseUrl = 'https://beep.im/web';
   static String get webBaseUrl => _webBaseUrl;
@@ -62,9 +62,9 @@ abstract class AppConfig {
   static const String deepLinkPrefix = 'im.beep://chat/';
   static const String schemePrefix = 'matrix:';
   static const String pushNotificationsChannelId = 'beep_push';
-  static const String pushNotificationsAppId = 'chat.fluffy.beep';
-  static const String pushNotificationsGatewayUrl =
-      'https://push.beep.im/_matrix/push/v1/notify';
+static const String pushNotificationsAppId = 'chat.beep.beepchat';
+static const String pushNotificationsGatewayUrl =
+    'https://ms.beep.gov.pk/_matrix/push/v1/notify';
   static const String pushNotificationsPusherFormat = 'event_id_only';
   static const String emojiFontName = 'Noto Emoji';
   static const String emojiFontUrl =

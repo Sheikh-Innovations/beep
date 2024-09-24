@@ -25,6 +25,7 @@ import 'package:flutter/services.dart';
 
 import 'package:flutter_foreground_task/flutter_foreground_task.dart';
 import 'package:flutter_gen/gen_l10n/l10n.dart';
+
 import 'package:flutter_webrtc/flutter_webrtc.dart' hide VideoRenderer;
 import 'package:just_audio/just_audio.dart';
 import 'package:matrix/matrix.dart';
@@ -151,7 +152,6 @@ class MyCallingPage extends State<Calling> {
 
   MediaStream? get remoteStream {
     if (call.getRemoteStreams.isNotEmpty) {
-      player.stop();
       return call.getRemoteStreams[0].stream!;
     }
     return null;
@@ -373,7 +373,10 @@ class MyCallingPage extends State<Calling> {
       heroTag: 'switchCamera',
       onPressed: _switchCamera,
       backgroundColor: Colors.black45,
-      child: const Icon(Icons.switch_camera, color: Colors.white,),
+      child: const Icon(
+        Icons.switch_camera,
+        color: Colors.white,
+      ),
     );
     /*
     var switchSpeakerButton = FloatingActionButton(
@@ -441,6 +444,10 @@ class MyCallingPage extends State<Calling> {
             ? <Widget>[hangupButton]
             : <Widget>[answerButton, hangupButton];
       case CallState.kConnected:
+        player.stop();
+        Future.delayed(const Duration(milliseconds: 300), () {
+          if (mounted) setState(() {});
+        });
         return <Widget>[
           muteMicButton,
           //switchSpeakerButton,

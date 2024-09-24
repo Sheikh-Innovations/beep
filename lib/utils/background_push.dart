@@ -21,6 +21,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
@@ -289,7 +290,11 @@ class BackgroundPush {
     Logs().v('Setup firebase');
     if (_fcmToken?.isEmpty ?? true) {
       try {
-        _fcmToken = await firebase?.getToken();
+        final messaging = FirebaseMessaging.instance;
+
+        // Get the FCM token
+
+        _fcmToken = await messaging.getToken();
         if (_fcmToken == null) throw ('PushToken is null');
       } catch (e, s) {
         Logs().w('[Push] cannot get token', e, e is String ? null : s);

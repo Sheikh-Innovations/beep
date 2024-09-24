@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 
 import 'package:flutter_gen/gen_l10n/l10n.dart';
-import 'package:flutter_linkify/flutter_linkify.dart';
-import 'package:url_launcher/url_launcher.dart';
 
-import 'package:beep/config/app_config.dart';
+
 import 'package:beep/widgets/layouts/login_scaffold.dart';
 import 'package:beep/widgets/matrix.dart';
-import '../../config/themes.dart';
+
 import 'homeserver_picker.dart';
 
 class HomeserverPickerView extends StatelessWidget {
@@ -64,70 +62,70 @@ class HomeserverPickerView extends StatelessWidget {
                 repeat: ImageRepeat.repeat,
               ),
             ),
-          Padding(
-            padding: const EdgeInsets.all(32.0),
-            child: TextField(
-              onChanged: controller.tryCheckHomeserverActionWithCooldown,
-              onEditingComplete:
-                  controller.tryCheckHomeserverActionWithoutCooldown,
-              onSubmitted: controller.tryCheckHomeserverActionWithoutCooldown,
-              onTap: controller.tryCheckHomeserverActionWithCooldown,
-              controller: controller.homeserverController,
-              autocorrect: false,
-              keyboardType: TextInputType.url,
-              decoration: InputDecoration(
-                prefixIcon: controller.isLoading
-                    ? Container(
-                        width: 16,
-                        height: 16,
-                        alignment: Alignment.center,
-                        child: const SizedBox(
-                          width: 16,
-                          height: 16,
-                          child: CircularProgressIndicator.adaptive(
-                            strokeWidth: 2,
-                          ),
-                        ),
-                      )
-                    : const Icon(Icons.search_outlined),
-                filled: false,
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(AppConfig.borderRadius),
-                ),
-                hintText:AppConfig.defaultHomeserver,
-                labelText: L10n.of(context)!.homeserver,
-                errorText: controller.error,
-                suffixIcon: IconButton(
-                  onPressed: () {
-                    showDialog(
-                      context: context,
-                      builder: (context) => AlertDialog.adaptive(
-                        title: Text(L10n.of(context)!.whatIsAHomeserver),
-                        content: Linkify(
-                          text: L10n.of(context)!.homeserverDescription,
-                        ),
-                        actions: [
-                          TextButton(
-                            onPressed: () => launchUrl(
-                              Uri.https('servers.joinmatrix.org'),
-                            ),
-                            child: Text(
-                              L10n.of(context)!.discoverHomeservers,
-                            ),
-                          ),
-                          TextButton(
-                            onPressed: Navigator.of(context).pop,
-                            child: Text(L10n.of(context)!.close),
-                          ),
-                        ],
-                      ),
-                    );
-                  },
-                  icon: const Icon(Icons.info_outlined),
-                ),
-              ),
-            ),
-          ),
+          // Padding(
+          //   padding: const EdgeInsets.all(32.0),
+          //   child: TextField(
+          //     onChanged: controller.tryCheckHomeserverActionWithCooldown,
+          //     onEditingComplete:
+          //         controller.tryCheckHomeserverActionWithoutCooldown,
+          //     onSubmitted: controller.tryCheckHomeserverActionWithoutCooldown,
+          //     onTap: controller.tryCheckHomeserverActionWithCooldown,
+          //     controller: controller.homeserverController,
+          //     autocorrect: false,
+          //     keyboardType: TextInputType.url,
+          //     decoration: InputDecoration(
+          //       prefixIcon: controller.isLoading
+          //           ? Container(
+          //               width: 16,
+          //               height: 16,
+          //               alignment: Alignment.center,
+          //               child: const SizedBox(
+          //                 width: 16,
+          //                 height: 16,
+          //                 child: CircularProgressIndicator.adaptive(
+          //                   strokeWidth: 2,
+          //                 ),
+          //               ),
+          //             )
+          //           : const Icon(Icons.search_outlined),
+          //       filled: false,
+          //       border: OutlineInputBorder(
+          //         borderRadius: BorderRadius.circular(AppConfig.borderRadius),
+          //       ),
+          //       hintText:AppConfig.defaultHomeserver,
+          //       labelText: L10n.of(context)!.homeserver,
+          //       errorText: controller.error,
+          //       suffixIcon: IconButton(
+          //         onPressed: () {
+          //           showDialog(
+          //             context: context,
+          //             builder: (context) => AlertDialog.adaptive(
+          //               title: Text(L10n.of(context)!.whatIsAHomeserver),
+          //               content: Linkify(
+          //                 text: L10n.of(context)!.homeserverDescription,
+          //               ),
+          //               actions: [
+          //                 TextButton(
+          //                   onPressed: () => launchUrl(
+          //                     Uri.https('servers.joinmatrix.org'),
+          //                   ),
+          //                   child: Text(
+          //                     L10n.of(context)!.discoverHomeservers,
+          //                   ),
+          //                 ),
+          //                 TextButton(
+          //                   onPressed: Navigator.of(context).pop,
+          //                   child: Text(L10n.of(context)!.close),
+          //                 ),
+          //               ],
+          //             ),
+          //           );
+          //         },
+          //         icon: const Icon(Icons.info_outlined),
+          //       ),
+          //     ),
+          //   ),
+          // ),
 
           const SizedBox(
             height: 150,

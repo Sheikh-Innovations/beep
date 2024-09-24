@@ -1,5 +1,7 @@
+import 'package:beep/firebase_options.dart';
 import 'package:beep/utils/hive/call_log.dart';
-import 'package:beep/utils/hive/call_manager.dart';
+import 'package:firebase_core/firebase_core.dart';
+
 import 'package:flutter/material.dart';
 
 import 'package:collection/collection.dart';
@@ -24,15 +26,17 @@ void main() async {
   // To make sure that the parts of flutter needed are started up already, we need to ensure that the
   // widget bindings are initialized already.
   WidgetsFlutterBinding.ensureInitialized();
-
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   Logs().nativeColors = !PlatformInfos.isIOS;
   final store = await SharedPreferences.getInstance();
   final clients = await ClientManager.getClients(store: store);
-await Hive.initFlutter();
+  await Hive.initFlutter();
   Hive.registerAdapter(CallLogAdapter()); // Register the adapter
 
   // Open the box for call logs
- await Hive.openBox<CallLog>('call_logs');
+  await Hive.openBox<CallLog>('call_logs');
 
   // If the app starts in detached mode, we assume that it is in
   // background fetch mode for processing push notifications. This is

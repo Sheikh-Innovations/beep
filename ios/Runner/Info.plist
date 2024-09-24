@@ -23,7 +23,7 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.24.0</string>
+	<string>1.24.2</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleURLTypes</key>
@@ -47,12 +47,14 @@
 	<false/>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>FirebaseAppDelegateProxyEnabled</key>
+    <false/>
 	<key>NSAppTransportSecurity</key>
 	<dict>
 		<key>NSAllowsArbitraryLoads</key>
 		<true/>
 		<key>NSAllowsArbitraryLoadsForMedia</key>
-        <true/>
+		<true/>
 	</dict>
 	<key>NSAppleMusicUsageDescription</key>
 	<string>Play audio and voice messages in the app.</string>
@@ -68,6 +70,8 @@
 	<string>Share contacts with your contacts in beep.</string>
 	<key>NSFaceIDUsageDescription</key>
 	<string>beep uses an app lock for an additional security level</string>
+	<key>NSLocalNetworkUsageDescription</key>
+	<string>Allow access to local network for call connectivity</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
 	<string>Share your location with your contacts in beep.</string>
 	<key>NSLocationAlwaysUsageDescription</key>
